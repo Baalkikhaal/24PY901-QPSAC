@@ -1,0 +1,20 @@
+---
+# Minimal theme configuration
+
+title: Your Site Title
+
+description: A description of your site.
+
+baseurl: ""  # the subpath of your site, e.g. /blog
+
+url: "https://yourdomain.com"  # the base hostname & protocol for your site
+
+theme: minima
+
+# Build settings
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+---
