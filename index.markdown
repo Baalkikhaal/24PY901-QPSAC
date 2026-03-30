@@ -5,7 +5,7 @@ title: Quantum Principles, Structures and Computing
 
 # Welcome to 24PY901-QPSAC
 
-This is the official course page for **Quantum Principles, Structures and Computing** - a comprehensive introduction to quantum technology for Year II Sem II students.
+This is the course page for **Quantum Principles, Structures and Computing** - a comprehensive introduction to quantum technology for Year II Sem II students.
 
 ## 📚 Course Information
 
@@ -24,12 +24,4 @@ In this course, we explore:
 - Practical implications of quantum computing
 - Real-world quantum computing systems
 
-## 📖 Explore the Course
-
-- [Course Materials](./materials.html) - Lecture notes and resources
-- [Announcements](./announcements.html) - Latest updates
-- [Lab Exercises](./labs.html) - Practical quantum computing exercises
-
 ---
-
-**Last Updated:** 2026-03-27

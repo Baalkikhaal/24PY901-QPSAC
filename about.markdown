@@ -4,15 +4,23 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+# Welcome to 24PY901-QPSAC
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+This is the course page for **Quantum Principles, Structures and Computing** - a comprehensive introduction to quantum technology for Year II Sem II students.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+## 📚 Course Information
 
+**Course Code:** 24PY901  
+**Program:** Minor Program on Quantum Technology  
+**Target Students:** Year II, Semester II  
+**Affiliated Departments:** ECE, ECE-VLSI, CSE, CSE-AIML, BioTech, EEE
 
-[jekyll-organization]: https://github.com/jekyll
+## 🎯 Course Overview
+
+In this course, we explore:
+- Fundamental principles of quantum mechanics
+- Quantum structures and quantum bits (qubits)
+- Quantum gates and quantum circuits
+- Quantum algorithms and their applications
+- Practical implications of quantum computing
+- Real-world quantum computing systems
