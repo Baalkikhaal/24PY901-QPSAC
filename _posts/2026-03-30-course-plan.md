@@ -3,7 +3,7 @@ layout: post
 author: fubar
 title: "Course plan"
 excerpt: "Course content"
-date: 30th February, 2026
+date: 30th March, 2026
 ---
 
 # Course content
