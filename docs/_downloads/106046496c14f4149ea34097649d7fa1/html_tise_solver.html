@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schrödinger Equation Solver</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath:[['$','$'],['\\(','\\)']], displayMath:[['$$','$$']] },
+    options: { skipHtmlTags:['script','noscript','style','textarea'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root{
+  --bg:#f4f0e8;--surface:#fdfaf4;--surf2:#ede9e0;--surf3:#e4dfd4;
+  --border:#d0c9bc;--border2:#bdb5a6;
+  --text:#18140f;--text2:#5c5044;--text3:#8c7e70;
+  --wave:#1a3a6b;--wavel:#3b6cc4;--potl:#c83000;
+  --green:#1d5c38;--red:#a01818;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
+body{
+  font-family:'DM Mono',monospace;color:var(--text);
+  display:grid;
+  grid-template-rows:46px 1fr;
+  grid-template-columns:1fr 294px;
+  grid-template-areas:"hdr hdr" "plot side";
+}
+
+/* ── HEADER ── */
+header{
+  grid-area:hdr;background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 18px;gap:12px;
+}
+header h1{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+  font-size:1.12rem;letter-spacing:-0.01em;white-space:nowrap;
+}
+.sep{flex-shrink:0;width:1px;height:18px;background:var(--border2);}
+.sub{font-size:0.59rem;color:var(--text3);letter-spacing:0.11em;text-transform:uppercase;white-space:nowrap;}
+.legend{margin-left:auto;display:flex;gap:14px;align-items:center;flex-shrink:0;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:0.59rem;color:var(--text2);}
+.leg-swatch{width:18px;height:2.5px;border-radius:2px;}
+
+/* ── PLOT AREA ── */
+.plot-area{
+  grid-area:plot;display:flex;flex-direction:column;
+  overflow:hidden;padding:8px 8px 0 8px;
+}
+#mainCanvas{
+  flex:1 1 0;display:block;min-height:0;
+  width:100%;height:100%;
+  border:1px solid var(--border);border-radius:2px;background:var(--surface);
+}
+.info-strip{
+  flex:0 0 32px;display:flex;align-items:center;gap:18px;padding:0 12px;
+  background:var(--surf2);border:1px solid var(--border);border-top:none;
+  border-radius:0 0 2px 2px;margin-bottom:6px;overflow:hidden;
+}
+.info-kv{font-size:0.62rem;color:var(--text3);white-space:nowrap;}
+.info-kv b{color:var(--text);font-weight:500;}
+.bound-yes b{color:var(--green)!important;}
+.bound-no  b{color:var(--red)!important;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  grid-area:side;background:var(--surface);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;padding:12px 14px 20px;gap:14px;
+}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+.sec{font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text3);border-bottom:1px solid var(--surf3);padding-bottom:4px;margin-bottom:8px;}
+.ctrl-row{display:flex;justify-content:space-between;align-items:center;
+  font-size:0.61rem;color:var(--text2);margin-bottom:5px;}
+.badge{background:var(--wave);color:#fff;padding:1px 7px;border-radius:2px;
+  font-size:0.61rem;min-width:60px;text-align:center;font-family:'DM Mono',monospace;}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:4px;
+  background:var(--surf3);border:1px solid var(--border);border-radius:2px;
+  outline:none;cursor:pointer;margin-bottom:2px;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--wave);border:2.5px solid var(--surface);
+  box-shadow:0 0 0 1px var(--wave);cursor:pointer;transition:transform 0.1s;
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);}
+input[type=range]::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;background:var(--wave);
+  border:2.5px solid var(--surface);box-shadow:0 0 0 1px var(--wave);cursor:pointer;
+}
+.range-ends{display:flex;justify-content:space-between;font-size:0.53rem;color:var(--text3);}
+.pot-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.pot-btn{
+  background:var(--surf2);border:1px solid var(--border);border-radius:2px;
+  padding:6px 7px;font-family:'DM Mono',monospace;font-size:0.57rem;
+  color:var(--text2);cursor:pointer;text-align:left;line-height:1.45;
+  transition:background 0.1s,border-color 0.1s,color 0.1s;
+}
+.pot-btn:hover{background:var(--surface);border-color:var(--wavel);color:var(--text);}
+.pot-btn.active{background:var(--wave);border-color:var(--wave);color:#fff;}
+
+/* ── FORMULA BOXES ── */
+.fbox{
+  background:var(--surf2);border:1px solid var(--border);border-radius:2px;
+  padding:8px 10px;margin-bottom:6px;
+}
+.fbox:last-child{margin-bottom:0;}
+.fname{font-size:0.54rem;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:4px;}
+.feq{color:var(--text);line-height:1.9;overflow-x:auto;}
+.feq mjx-container{font-size:0.82em!important;}
+.fdesc{font-size:0.56rem;color:var(--text3);margin-top:4px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Time-Independent Schrödinger Equation</h1>
+  <div class="sep"></div>
+  <span class="sub">Numerov Method · ℏ = m = 1 a.u.</span>
+  <div class="legend">
+    <div class="leg-item">
+      <div class="leg-swatch" style="background:var(--wavel);"></div>ψ(x)
+    </div>
+    <div class="leg-item">
+      <div class="leg-swatch" style="background:var(--potl);opacity:0.85;"></div>V(x)
+    </div>
+    <div class="leg-item">
+      <div class="leg-swatch" style="background:none;border-top:1.5px dashed var(--potl);opacity:0.6;"></div>E
+    </div>
+  </div>
+</header>
+
+<div class="plot-area">
+  <canvas id="mainCanvas"></canvas>
+  <div class="info-strip">
+    <div class="info-kv">E = <b id="iE">—</b> a.u.</div>
+    <div class="info-kv">ψ-tail = <b id="iTail">—</b></div>
+    <div class="info-kv">Potential: <b id="iPot">Step</b></div>
+    <div class="info-kv" id="iBoundKv">Bound state: <b id="iBound">—</b></div>
+  </div>
+</div>
+
+<div class="sidebar">
+
+  <!-- Energy slider -->
+  <div>
+    <div class="sec">Energy</div>
+    <div class="ctrl-row">E (a.u.) <span class="badge" id="eVal">0.000</span></div>
+    <input type="range" id="eSlider" min="0" max="1000" value="0" step="1">
+    <div class="range-ends"><span id="eLo">0.000</span><span id="eHi">10.000</span></div>
+  </div>
+
+  <!-- Scale slider -->
+  <div>
+    <div class="sec">Energy Scale</div>
+    <div class="ctrl-row">Step size <span class="badge" id="scaleVal">1.000</span></div>
+    <input type="range" id="fSlider" min="-8" max="2" value="0" step="1">
+    <div class="range-ends"><span>0.00000001</span><span>100</span></div>
+  </div>
+
+  <!-- Potential buttons -->
+  <div>
+    <div class="sec">Potential</div>
+    <div class="pot-grid">
+      <button class="pot-btn active" data-pot="0">Step<br>Potential</button>
+	  <button class="pot-btn" 		 data-pot="1">Infinite<br>Well</button>
+      <button class="pot-btn"        data-pot="2">Finite<br>Well</button>
+      <button class="pot-btn"        data-pot="3">Finite<br>Barrier</button>
+      <button class="pot-btn"        data-pot="4">Harmonic<br>Osc.</button>
+    </div>
+  </div>
+
+  <!-- Formulae -->
+  <div>
+    <div class="sec">Key Equations</div>
+
+    <div class="fbox">
+      <div class="fname">Schrödinger Equation</div>
+      <div class="feq">$$-\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2}+V(x)\,\psi=E\psi$$</div>
+      <div class="fdesc">Eigenvalue equation for stationary states. ψ(x) is the wavefunction, E the energy eigenvalue.</div>
+    </div>
+
+    <div class="fbox">
+      <div class="fname">Numerov Recurrence</div>
+      <div class="feq">$$\psi_{n+1}=\frac{2\psi_n\!\left(1-\tfrac{5}{12}h^2k_n^2\right)-\psi_{n-1}\!\left(1+\tfrac{1}{12}h^2k_{n-1}^2\right)}{1+\tfrac{1}{12}h^2k_{n+1}^2}$$</div>
+      <div class="fdesc">$k_n^2=\tfrac{2m}{\hbar^2}[E-V(x_n)]$, step $h=0.025$ a.u., 6th-order accurate.</div>
+    </div>
+
+    <div class="fbox">
+      <div class="fname">Potentials Used</div>
+      <div class="feq" style="font-size:0.75rem;">
+        Step:&nbsp;$V=\dfrac{V_0}{1+e^{x/T}}$<br>
+        Well:&nbsp;$V_s(-x{-}a)+V_s(x{-}a)$<br>
+        Harmonic:&nbsp;$V=\tfrac{1}{2}m\omega^2x^2$
+      </div>
+    </div>
+
+    <div class="fbox">
+      <div class="fname">Bound State Condition</div>
+      <div class="feq">$$\psi(x)\to 0\quad\text{as}\quad|x|\to\infty$$</div>
+      <div class="fdesc">A physical eigenstate must be square-integrable. The ψ-tail value near zero indicates a true bound state.</div>
+    </div>
+
+  </div><!-- formulae section -->
+</div><!-- sidebar -->
+
+<script>
+"use strict";
+
+// ═══════════════════════════════════════════════════════════════
+// PHYSICS
+// ═══════════════════════════════════════════════════════════════
+const XMIN=-15, XMAX=15, H0=0.025;
+const xs=[];
+for(let x=XMIN; x<XMAX+H0*0.5; x+=H0) xs.push(x);
+const NX=xs.length;
+
+function smoothStep(x){ return 1/(1+Math.exp(-x)); }
+function invSmooth(x){ return smoothStep(-x); }
+function finiteWell(x){ const a=5; return invSmooth(x+a)+smoothStep(x-a); }
+function infiniteWell(x) {return 0;}
+function finiteBarrier(x){ return -finiteWell(x)+1; }
+function harmonic(x){ const a=5; return 0.5*(x/a)**2; }
+
+const POT_FNS  = [invSmooth, infiniteWell, finiteWell, finiteBarrier, harmonic];
+const POT_NAMES= ["Step Potential", "Infinite Well", "Finite Well","Finite Barrier","Harmonic Osc."];
+
+function numerov(E, potFn){
+  const psi=new Float64Array(NX);
+  const k2 =new Float64Array(NX);
+  for(let i=0;i<NX;i++) k2[i]=2*(E-potFn(xs[i]));
+  psi[0]=0; psi[1]=1e-3;
+  const h2=H0*H0;
+  for(let i=2;i<NX;i++){
+    const n= 2*psi[i-1]*(1-(5/12)*h2*k2[i-1]) - psi[i-2]*(1+(1/12)*h2*k2[i-2]);
+    const d= 1+(1/12)*h2*k2[i];
+    psi[i]= n/d;
+  }
+  return psi;
+}
+
+function normPsi(psi){
+  let mx=0;
+  for(let i=0;i<NX;i++) if(Math.abs(psi[i])>mx) mx=Math.abs(psi[i]);
+  if(mx===0) return psi;
+  const out=new Float64Array(NX);
+  for(let i=0;i<NX;i++) out[i]=psi[i]/mx;
+  return out;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS — HiDPI correct
+// ═══════════════════════════════════════════════════════════════
+const canvas=document.getElementById('mainCanvas');
+const ctx=canvas.getContext('2d');
+
+// These are always CSS-pixel dimensions and margins
+let CW=0, CH=0;
+const MG={left:66,right:62,top:22,bottom:42};
+function plotW(){ return CW-MG.left-MG.right; }
+function plotH(){ return CH-MG.top -MG.bottom; }
+
+// Map physical x → canvas CSS x
+function xc(x){ return MG.left+(x-XMIN)/(XMAX-XMIN)*plotW(); }
+// Map value v in [vlo,vhi] → canvas CSS y
+function yc(v,vlo,vhi){ return MG.top+plotH()-(v-vlo)/(vhi-vlo)*plotH(); }
+
+function resizeCanvas(){
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  CW=rect.width;
+  CH=rect.height;
+  // Set the actual pixel buffer
+  canvas.width =Math.round(CW*dpr);
+  canvas.height=Math.round(CH*dpr);
+  // Reset transform and scale once
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr,dpr);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let currentPot=0;
+// Energy range — always [eCenter - halfSpan, eCenter + halfSpan]
+// where halfSpan = 5 * 10^f, so 10 steps cover the full range
+let eCenter=1.0;
+let fExp=0;           // integer exponent, -3..2
+let currentE=1.0;
+
+function halfSpan(){ return 5*Math.pow(10,fExp); }
+function eMin(){ return Math.max(0, eCenter-halfSpan()); }
+function eMax(){ return eCenter+halfSpan(); }
+
+// slider value 0..1000 maps linearly to [eMin, eMax]
+function sliderToE(v){ return eMin()+(v/1000)*(eMax()-eMin()); }
+function eToSlider(e){ return Math.round((e-eMin())/(eMax()-eMin())*1000); }
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW
+// ═══════════════════════════════════════════════════════════════
+function draw(){
+  if(CW===0||CH===0) return;
+
+  const PW=plotW(), PH=plotH();
+  if(PW<=0||PH<=0) return;
+
+  const potFn=POT_FNS[currentPot];
+  const pots=new Float64Array(NX);
+  for(let i=0;i<NX;i++) pots[i]=potFn(xs[i]);
+
+  const rawPsi=numerov(currentE,potFn);
+  const psi=normPsi(rawPsi);
+
+  // Clear with CSS-pixel dimensions (ctx is pre-scaled by dpr)
+  ctx.clearRect(0,0,CW,CH);
+
+  // ── Background grid
+  ctx.strokeStyle='#e6e0d4'; ctx.lineWidth=0.7;
+  for(let i=0;i<=10;i++){
+    const cx=MG.left+i*PW/10;
+    ctx.beginPath(); ctx.moveTo(cx,MG.top); ctx.lineTo(cx,MG.top+PH); ctx.stroke();
+  }
+  for(let j=0;j<=8;j++){
+    const cy=MG.top+j*PH/8;
+    ctx.beginPath(); ctx.moveTo(MG.left,cy); ctx.lineTo(MG.left+PW,cy); ctx.stroke();
+  }
+
+  // ── Plot border
+  ctx.strokeStyle='#b5ada0'; ctx.lineWidth=1.5;
+  ctx.strokeRect(MG.left,MG.top,PW,PH);
+
+  // ── ψ=0 baseline
+  const PSI_LO=-1.3, PSI_HI=1.3;
+  const y0=yc(0,PSI_LO,PSI_HI);
+  ctx.strokeStyle='#cfc8bc'; ctx.lineWidth=1; ctx.setLineDash([5,5]);
+  ctx.beginPath(); ctx.moveTo(MG.left,y0); ctx.lineTo(MG.left+PW,y0); ctx.stroke();
+  ctx.setLineDash([]);
+
+  const FS=Math.max(11,Math.min(13,Math.round(CW/80)));
+  const FONT=`500 ${FS}px 'DM Mono',monospace`;
+
+  // ── X-axis tick labels
+  ctx.fillStyle='#6b5e50'; ctx.font=FONT; ctx.textAlign='center'; ctx.textBaseline='top';
+  for(let v=-14;v<=14;v+=7)
+    ctx.fillText(String(v), xc(v), MG.top+PH+6);
+
+  // ── X-axis label
+  ctx.fillStyle='#8c7e70'; ctx.font=`400 ${FS-1}px 'DM Mono',monospace`;
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.fillText('x (a.u.)', MG.left+PW/2, MG.top+PH+34);
+
+  // ── ψ left-axis tick labels
+  ctx.fillStyle='#1a3a6b'; ctx.font=FONT;
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(const v of [-1,-0.5,0,0.5,1])
+    ctx.fillText(v.toFixed(1), MG.left-8, yc(v,PSI_LO,PSI_HI));
+
+  // ── ψ left-axis rotated label
+  ctx.save();
+  ctx.translate(13, MG.top+PH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillStyle='#1a3a6b'; ctx.font=FONT;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('ψ(x)', 0, 0);
+  ctx.restore();
+
+  // ── Potential V(x) — compute display range
+  let vlo=pots[0], vhi=pots[0];
+  for(let i=1;i<NX;i++){ if(pots[i]<vlo)vlo=pots[i]; if(pots[i]>vhi)vhi=pots[i]; }
+  const vr=Math.max(vhi-vlo,0.5);
+  vlo-=0.08*vr; vhi+=0.22*vr;
+
+  // ── V right-axis tick labels
+  ctx.fillStyle='#8b2500'; ctx.font=FONT;
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){
+    const v=vlo+(vhi-vlo)*i/4;
+    const cy=yc(v,vlo,vhi);
+    if(cy>=MG.top && cy<=MG.top+PH)
+      ctx.fillText(v.toFixed(2), MG.left+PW+7, cy);
+  }
+
+  // ── V right-axis rotated label
+  ctx.save();
+  ctx.translate(CW-9, MG.top+PH/2);
+  ctx.rotate(Math.PI/2);
+  ctx.fillStyle='#8b2500'; ctx.font=FONT;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('V(x)', 0, 0);
+  ctx.restore();
+
+  // ── Draw V curve
+  ctx.strokeStyle='rgba(200,48,0,0.65)'; ctx.lineWidth=2; ctx.setLineDash([8,5]);
+  ctx.beginPath();
+  for(let i=0;i<NX;i++){
+    const cx=xc(xs[i]), cy=yc(pots[i],vlo,vhi);
+    i===0 ? ctx.moveTo(cx,cy) : ctx.lineTo(cx,cy);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // ── Energy level line (in V's coordinate space)
+  const ey=yc(currentE,vlo,vhi);
+  if(ey>=MG.top && ey<=MG.top+PH){
+    ctx.strokeStyle='rgba(155,50,10,0.50)'; ctx.lineWidth=1.5; ctx.setLineDash([4,7]);
+    ctx.beginPath(); ctx.moveTo(MG.left,ey); ctx.lineTo(MG.left+PW,ey); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(120,40,5,0.80)'; ctx.font=`500 ${FS}px 'DM Mono',monospace`;
+    ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    ctx.fillText(`E = ${currentE.toFixed(4)}`, MG.left+7, ey-5);
+  }
+
+  // ── ψ(x) fill + stroke
+  const grad=ctx.createLinearGradient(0,MG.top,0,MG.top+PH);
+  grad.addColorStop(0,'rgba(26,58,107,0.22)');
+  grad.addColorStop(0.55,'rgba(26,58,107,0.07)');
+  grad.addColorStop(1,'rgba(26,58,107,0.00)');
+
+  ctx.beginPath();
+  ctx.moveTo(xc(xs[0]),y0);
+  for(let i=0;i<NX;i++) ctx.lineTo(xc(xs[i]), yc(psi[i],PSI_LO,PSI_HI));
+  ctx.lineTo(xc(xs[NX-1]),y0);
+  ctx.closePath();
+  ctx.fillStyle=grad; ctx.fill();
+
+  ctx.strokeStyle='rgba(26,58,107,0.92)'; ctx.lineWidth=2.2; ctx.lineJoin='round';
+  ctx.beginPath();
+  for(let i=0;i<NX;i++){
+    const cx=xc(xs[i]), cy=yc(psi[i],PSI_LO,PSI_HI);
+    i===0 ? ctx.moveTo(cx,cy) : ctx.lineTo(cx,cy);
+  }
+  ctx.stroke();
+
+  // ── Info strip
+  const tail=rawPsi[NX-1];
+  let mx=0; for(let i=0;i<NX;i++) if(Math.abs(rawPsi[i])>mx) mx=Math.abs(rawPsi[i]);
+  const bound= mx>0 && Math.abs(tail)/mx < 0.04;
+  document.getElementById('iE').textContent   = currentE.toFixed(4);
+  document.getElementById('iTail').textContent= tail.toExponential(2);
+  document.getElementById('iPot').textContent = POT_NAMES[currentPot];
+  const bEl=document.getElementById('iBound');
+  const bKv=document.getElementById('iBoundKv');
+  bEl.textContent = bound ? 'Yes ✓' : 'No ✗';
+  bKv.className   = 'info-kv '+(bound?'bound-yes':'bound-no');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI SYNC  — single source of truth: eCenter, fExp, eSlider.value
+// ═══════════════════════════════════════════════════════════════
+const eSlider=document.getElementById('eSlider');
+const fSlider=document.getElementById('fSlider');
+
+function syncUI(){
+  // Clamp slider value to valid range
+  const sv=parseInt(eSlider.value);
+  currentE=sliderToE(sv);
+
+  // Labels
+  const decimals=Math.max(0,3-fExp);   // more decimals for finer scale
+  document.getElementById('eVal').textContent = currentE.toFixed(decimals+1);
+  document.getElementById('eLo').textContent  = eMin().toFixed(decimals+1);
+  document.getElementById('eHi').textContent  = eMax().toFixed(decimals+1);
+
+  // Scale badge: show the step size = 10^fExp
+  const stepSize=Math.pow(10,fExp);
+  document.getElementById('scaleVal').textContent= stepSize<1
+    ? stepSize.toFixed(Math.abs(fExp))
+    : stepSize.toFixed(0);
+}
+
+eSlider.addEventListener('input',()=>{ syncUI(); draw(); });
+
+fSlider.addEventListener('input',()=>{
+  fExp=parseInt(fSlider.value);
+  // Keep currentE as the new center so the user doesn't lose their position
+  eCenter=currentE;
+  // Recalculate where the slider thumb should sit (middle = eCenter)
+  eSlider.value=eToSlider(currentE);
+  syncUI(); draw();
+});
+
+document.querySelectorAll('.pot-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.pot-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPot=parseInt(btn.dataset.pot);
+    draw();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// RESIZE + INIT
+// ═══════════════════════════════════════════════════════════════
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{ resizeCanvas(); draw(); },50);
+});
+
+function init(){
+  resizeCanvas();
+  // Start slider at eCenter=1, fExp=0 → range [0..2], slider at midpoint (500)
+  eCenter=1.0; fExp=0; currentE=1.0;
+  eSlider.value=eToSlider(currentE);
+  fSlider.value=0;
+  syncUI();
+  draw();
+}
+
+// Two rAF frames so the canvas has its CSS layout dimensions before we read them
+requestAnimationFrame(()=>requestAnimationFrame(init));
+</script>
+</body>
+</html>

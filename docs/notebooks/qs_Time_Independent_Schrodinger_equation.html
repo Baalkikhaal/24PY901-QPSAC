@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Time independent Schrodinger equation &#8212; Quantum Principles, Structures and Computing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/qs_Time_Independent_Schrodinger_equation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Numerical solution to differential equation" href="qs_finite_difference_method.html" />
+    <link rel="prev" title="Quantum structures" href="q_structures.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Quantum Principles, Structures and Computing - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Quantum Principles, Structures and Computing - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="q_principles.html">Quantum principles</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="qp_hilbert_space.html">Hilbert Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qp_wave_ket_postulate.html">Wave ket postulate</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_operator_postulate.html">Operator postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_measurement_postulate.html">Measurement postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_time_evolution_postulate.html">Time evolution postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_commutator_algebra.html">Commutator algebra</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="qp_spin_matrices.html">Pauli spin matrices</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="q_structures.html">Quantum structures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Time independent Schrodinger equation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_finite_difference_method.html">Numerical solution to differential equation</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_numerical_solution_to_TISE.html">Numerical solution to TISE</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_Gaussian_wave_packet.html">Gaussian wavepacket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qs_scattering_states.html">Scattering states</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_bound_states.html">Quantum structures that host bound particle</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="qs_confinement.html">Quantum confinement</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="q_computing.html">Quantum Computing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="qc_classical_computation.html">Classical computation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qc_quantum_computation.html">Quantum computation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qc_c_simulator_of_quantum_computer.html">Classical simulation of quantum computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qc_q_simulator_of_classical_computer.html">Quantum simulation of classical computation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">Qiskit</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="assignments.html">Assignments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="assignment_light_matter_interaction.html">Assignment on light-matter interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_physics_of_smartphone.html">Assignment on physics of smartphone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_linear_system_formulation.html">Assignment on linear system formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_postulates_of_quantum_mechanics.html">Assignment on postulates of quantum mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_gaussian_wave_packet.html">Assignment on Gaussian wavepacket in free space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_tise_of_quantum_structure.html">Assignment on TISE of quantum structures</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="assignment_single_qubit_circuits.html">Assignment on single qubit circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_multiple_qubit_circuits.html">Assignment on multiple qubit circuits</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/qs_Time_Independent_Schrodinger_equation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/qs_Time_Independent_Schrodinger_equation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Time independent Schrodinger equation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Time independent Schrodinger equation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-dimensional-hilbert-basis">Finite dimensional Hilbert basis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stationary-states">Stationary states</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tise-in-the-coordinate-basis">TISE in the coordinate basis</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="time-independent-schrodinger-equation">
+<h1>Time independent Schrodinger equation<a class="headerlink" href="#time-independent-schrodinger-equation" title="Link to this heading">#</a></h1>
+<p>Let us derive the time independent Schrodinger equation for two cases -</p>
+<ul class="simple">
+<li><p>finite dimensional Hilbert basis</p></li>
+<li><p>infinite dimensional Hilbert basis</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="finite-dimensional-hilbert-basis">
+<h1>Finite dimensional Hilbert basis<a class="headerlink" href="#finite-dimensional-hilbert-basis" title="Link to this heading">#</a></h1>
+<p>The aim is to solve the Time Dependent Schrodinger equation (TDSE)</p>
+<div class="math notranslate nohighlight">
+\[
+\imath \hbar \frac{\mathrm{d} |\psi\rangle}{\mathrm{d} t} = \tilde{H} |\psi\rangle
+\]</div>
+<section id="stationary-states">
+<h2>Stationary states<a class="headerlink" href="#stationary-states" title="Link to this heading">#</a></h2>
+<p>A stationary state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is an eigenstate of the Hamiltonian <span class="math notranslate nohighlight">\(\tilde{H}\)</span> so that</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{H} |\psi\rangle = E |\psi\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E\)</span> is the energy eigenvalue. This eigenvalue equation is called Time Independent Schrodinger Equation (TISE).</p>
+<p>Let us consider the computational basis as the energy eigenbasis <span class="math notranslate nohighlight">\(\{|E_i\rangle\}\)</span> where <span class="math notranslate nohighlight">\(i = \{1, 2, \ldots, n\}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the dimension of the Hilbert space. Let us consider the initial state <span class="math notranslate nohighlight">\((t = 0)\)</span> as a linear combination of the energy eigenkets as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi(0)\rangle
+=
+\left(
+\begin{matrix}
+c_1(0) \\
+c_2(0) \\
+\vdots \\
+c_n(0) \\
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>Since the Hamiltonian is diagonal in its own eigen basis, it is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\tilde{H}
+=
+\left(
+\begin{matrix}
+E_1 &amp; 0 &amp; \ldots &amp; 0 \\
+0 &amp; E_2 &amp; \ldots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \ldots &amp; E_n \\
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>Let us consider the general state at <span class="math notranslate nohighlight">\(t\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi(t)\rangle
+=
+\left(
+\begin{matrix}
+c_1(t) \\
+c_2(t) \\
+\vdots \\
+c_n(t) \\
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>Upon substitution of <span class="math notranslate nohighlight">\(|\psi(t)\rangle\)</span> and <span class="math notranslate nohighlight">\(\tilde{H}\)</span> in TDSE, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\imath \hbar
+\left(
+\begin{matrix}
+\frac{\mathrm{d} c_1(t)}{\mathrm{d} t} \\
+\frac{\mathrm{d} c_2(t)}{\mathrm{d} t} \\
+\vdots \\
+\frac{\mathrm{d} c_n(t)}{\mathrm{d} t} \\
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+E_1 c_1(t) \\
+E_2 c_2(t) \\
+\vdots \\
+E_n c_n(t) \\
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>We have a set of <span class="math notranslate nohighlight">\(n\)</span> first order differential equations</p>
+<p>\begin{align}
+\imath \hbar\frac{\mathrm{d} c_1(t)}{\mathrm{d} t} &amp;= E_1 c_1(t) \
+\imath \hbar\frac{\mathrm{d} c_2(t)}{\mathrm{d} t} &amp;= E_2 c_2(t) \
+\vdots &amp;= \vdots \
+\imath \hbar\frac{\mathrm{d} c_n(t)}{\mathrm{d} t} &amp;= E_n c_n(t) \
+\end{align}</p>
+<p>This set is reduced to</p>
+<p>\begin{align}
+\frac{\mathrm{d} c_1(t)}{\mathrm{d} t} &amp;= -\frac{\imath E_1}{\hbar} c_1(t) \
+\frac{\mathrm{d} c_2(t)}{\mathrm{d} t} &amp;= -\frac{\imath E_2}{\hbar} c_2(t) \
+\vdots &amp;= \vdots \
+\frac{\mathrm{d} c_n(t)}{\mathrm{d} t} &amp;= -\frac{\imath E_n}{\hbar} c_n(t) \
+\end{align}</p>
+<p>The solutions to these differential equations have exponential form with the initial values serving as pre-factors</p>
+<p>\begin{align}
+c_1(t) &amp;=  c_1(0) \exp \left(-\frac{\imath E_1 t}{\hbar}\right) \
+c_2(t) &amp;=  c_2(0) \exp \left(-\frac{\imath E_2 t}{\hbar}\right) \
+\vdots &amp;= \vdots \
+c_n(t) &amp;=  c_n(0) \exp \left(-\frac{\imath E_n t}{\hbar}\right) \
+\end{align}</p>
+<p>The left hand side can be grouped together to represent the state at <span class="math notranslate nohighlight">\(t\)</span> whereas the right hand side is the solution of the TDSE given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi(t)\rangle
+=
+\left(
+\begin{matrix}
+c_1(t) \\
+c_2(t) \\
+\vdots \\
+c_n(t) \\
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+c_1(0) \exp \left(-\frac{\imath E_1 t}{\hbar}\right) \\
+c_2(0) \exp \left(-\frac{\imath E_2 t}{\hbar}\right) \\
+\vdots \\
+c_n(0) \exp \left(-\frac{\imath E_n t}{\hbar}\right) \\
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>This can be decomposed into a linear combination of energy eigenkets</p>
+<p>\begin{align}
+|\psi(t)\rangle &amp;= c_1(0) \exp \left(-\frac{\imath E_1 t}{\hbar}\right) |E_1\rangle + c_2(0) \exp \left(-\frac{\imath E_2 t}{\hbar}\right) + \ldots + c_n(0) \exp \left(-\frac{\imath E_n t}{\hbar}\right), \
+&amp;= \sum_{i} c_i(0) \exp \left(-\frac{\imath E_i t}{\hbar}\right) |E_i\rangle.
+\end{align}</p>
+<div class="math notranslate nohighlight">
+\[
+Q.E.D.
+\]</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tise-in-the-coordinate-basis">
+<h1>TISE in the coordinate basis<a class="headerlink" href="#tise-in-the-coordinate-basis" title="Link to this heading">#</a></h1>
+<p>We have seen that the solution of the TDSE is intimately connected to the TISE</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{H} |\psi\rangle = E |\psi\rangle,
+\]</div>
+<p>where the Hamiltonian can be written in terms of the position <span class="math notranslate nohighlight">\(\tilde{X}\)</span> and momentum <span class="math notranslate nohighlight">\(\tilde{P}\)</span> operators as</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{H} (\tilde{X}, \tilde{P}) = \frac{\tilde{P}^2}{2m} + V(\tilde{X}).
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\tilde{T} = \tfrac{\tilde{P}^2}{2m}\)</span> is the kinetic energy operator and <span class="math notranslate nohighlight">\(\tilde{V}(\tilde{X})\)</span> is the potential energy operator.</p>
+<p>Thus, we can express the Hamiltonian operator in the coordinate if we can express the position and momentum operators in the coordinate basis. The matrix elements of the operators are given by</p>
+<p>\begin{align}
+\langle x | \tilde{X} | x’ \rangle &amp;= x \delta(x-x’), \
+\langle x | \tilde{P} | x’ \rangle &amp;= \frac{\hbar}{\imath} \delta(x-x’)\frac{\mathrm{d}}{\mathrm{d}x}.
+\end{align}</p>
+<p>As a result, the matrix elements of operators <span class="math notranslate nohighlight">\(\tilde{T}\)</span> and <span class="math notranslate nohighlight">\(\tilde{V}\)</span> are given by</p>
+<p>\begin{align}
+\langle x | \frac{\tilde{P}^2}{2m} | x’ \rangle &amp;= -\frac{\hbar^2}{2m} \delta(x-x’)\frac{\mathrm{d^2}}{\mathrm{d}x^2} \
+\langle x | \tilde{V}(\tilde{X}) | x’ \rangle &amp;= V(x) \delta(x-x’)
+\end{align}</p>
+<p>As we are working in the coordinate basis, the completeness relation is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{I} = \int_{-\infty}^{\infty} |x'\rangle \langle x' | \, \mathrm{d} x'
+\]</div>
+<p>Let us plug the completeness relation inside the TISE, so that</p>
+<p>\begin{align}
+\tilde{H} |\psi\rangle &amp;= E |\psi\rangle, \
+\Leftrightarrow \tilde{H} \tilde{I}|\psi\rangle &amp;= E |\psi\rangle, \
+\Leftrightarrow  \tilde{H} \left( \int_{-\infty}^{\infty} |x’\rangle \langle x’ | , \mathrm{d} x’ \right) |\psi\rangle &amp;= E |\psi\rangle, \
+\Leftrightarrow \int_{-\infty}^{\infty} \tilde{H}  |x’\rangle \langle x’ | |\psi\rangle , \mathrm{d} x’   &amp;= E |\psi\rangle, \
+\end{align}</p>
+<p>Take the inner product with <span class="math notranslate nohighlight">\(\langle x | \)</span> on both sides of the equation so that</p>
+<p>\begin{align}
+\left( \int_{-\infty}^{\infty} \tilde{H}  |x’\rangle \langle x’ | |\psi\rangle , \mathrm{d} x’ \right)  &amp;= E \langle x |\psi\rangle, \
+\int_{-\infty}^{\infty} \langle x | \tilde{H}  |x’\rangle \langle x’ | |\psi\rangle , \mathrm{d} x’ &amp; = E \psi (x). \tag{A}
+\end{align}</p>
+<p>Here, we have used the definition of wavefunction <span class="math notranslate nohighlight">\(\psi (x) := \langle x |\psi\rangle\)</span>.</p>
+<p>Now,</p>
+<p>\begin{align}
+\langle x | \tilde{H}  |x’\rangle &amp;= \langle x | \tilde{T}  + \tilde{V} |x’\rangle, \
+&amp;= -\frac{\hbar^2}{2m} \delta(x-x’)\frac{\mathrm{d^2}}{\mathrm{d}x^2} + V(x) \delta(x-x’), \
+&amp;= \left( -\frac{\hbar^2}{2m}\frac{\mathrm{d^2}}{\mathrm{d}x^2} + V(x) \right) \delta(x-x’)
+\end{align}</p>
+<p>Therefore, this is the matrix element of the Hamiltonian operator in the coordinate basis.</p>
+<p>If we use the matrix element in the integral in Equation. (A), then</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{-\infty}^{\infty} \left( -\frac{\hbar^2}{2m}\frac{\mathrm{d^2}}{\mathrm{d}x^2} + V(x) \right) \delta(x-x') \psi (x') \, \mathrm{d} x' = E \psi (x).
+\]</div>
+<p>Here, we have again used the definition of wavefunction <span class="math notranslate nohighlight">\(\psi (x') := \langle x' |\psi\rangle\)</span>.</p>
+<p>Using the definition of delta function</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{-\infty}^{\infty} f(x')\delta(x-x')\, \mathrm{d} x' = f(x),
+\]</div>
+<p>we have</p>
+<div class="math notranslate nohighlight">
+\[
+\left( -\frac{\hbar^2}{2m}\frac{\mathrm{d^2}}{\mathrm{d}x^2} + V(x) \right)\psi (x) = E \psi (x)
+\]</div>
+<p>This is the TISE in the coordinate basis</p>
+<div class="math notranslate nohighlight">
+\[
+Q.E.D.
+\]</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="q_structures.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Quantum structures</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="qs_finite_difference_method.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Numerical solution to differential equation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Time independent Schrodinger equation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-dimensional-hilbert-basis">Finite dimensional Hilbert basis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stationary-states">Stationary states</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tise-in-the-coordinate-basis">TISE in the coordinate basis</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Sreekar Guddeti
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

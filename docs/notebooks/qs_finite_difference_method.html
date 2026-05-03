@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Numerical solution to differential equation &#8212; Quantum Principles, Structures and Computing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/qs_finite_difference_method';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Numerical solution to TISE" href="qs_numerical_solution_to_TISE.html" />
+    <link rel="prev" title="Time independent Schrodinger equation" href="qs_Time_Independent_Schrodinger_equation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Quantum Principles, Structures and Computing - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Quantum Principles, Structures and Computing - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="q_principles.html">Quantum principles</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="qp_hilbert_space.html">Hilbert Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qp_wave_ket_postulate.html">Wave ket postulate</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_operator_postulate.html">Operator postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_measurement_postulate.html">Measurement postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_time_evolution_postulate.html">Time evolution postulate</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qp_commutator_algebra.html">Commutator algebra</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="qp_spin_matrices.html">Pauli spin matrices</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="q_structures.html">Quantum structures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="qs_Time_Independent_Schrodinger_equation.html">Time independent Schrodinger equation</a></li>
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Numerical solution to differential equation</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_numerical_solution_to_TISE.html">Numerical solution to TISE</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_Gaussian_wave_packet.html">Gaussian wavepacket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qs_scattering_states.html">Scattering states</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="qs_bound_states.html">Quantum structures that host bound particle</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="qs_confinement.html">Quantum confinement</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="q_computing.html">Quantum Computing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="qc_classical_computation.html">Classical computation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qc_quantum_computation.html">Quantum computation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="qc_c_simulator_of_quantum_computer.html">Classical simulation of quantum computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qc_q_simulator_of_classical_computer.html">Quantum simulation of classical computation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">Qiskit</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="assignments.html">Assignments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="assignment_light_matter_interaction.html">Assignment on light-matter interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_physics_of_smartphone.html">Assignment on physics of smartphone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_linear_system_formulation.html">Assignment on linear system formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_postulates_of_quantum_mechanics.html">Assignment on postulates of quantum mechanics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_gaussian_wave_packet.html">Assignment on Gaussian wavepacket in free space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_tise_of_quantum_structure.html">Assignment on TISE of quantum structures</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="assignment_single_qubit_circuits.html">Assignment on single qubit circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assignment_multiple_qubit_circuits.html">Assignment on multiple qubit circuits</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/qs_finite_difference_method.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/qs_finite_difference_method.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Numerical solution to differential equation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Numerical solution to differential equation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-position-and-velocity">Generalized position and velocity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-formula-for-velocity">Finite difference formula for velocity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrence-relation">Recurrence relation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-harmonic-motion">Simple Harmonic Motion</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-space">Configuration space</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space">Phase space</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#acceleration-due-to-gravity">Acceleration due to gravity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-potential">Step potential</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="numerical-solution-to-differential-equation">
+<h1>Numerical solution to differential equation<a class="headerlink" href="#numerical-solution-to-differential-equation" title="Link to this heading">#</a></h1>
+<p>Problem statement:
+Given a second order differential equation of dependent variable x and independent variable time t, and given the initial values (at time <span class="math notranslate nohighlight">\(t=0\)</span>) for the position <span class="math notranslate nohighlight">\(x(0)\)</span> and velocity <span class="math notranslate nohighlight">\(\dot{x}(0)\)</span>, the aim is to solve after time duration <span class="math notranslate nohighlight">\(t\)</span>, the position <span class="math notranslate nohighlight">\(x(t)\)</span> and velocity <span class="math notranslate nohighlight">\(\dot{x}(t)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\ddot{x} = f(x, t)
+\]</div>
+<p>The idea is to decompose the second order differential equation into two first order differential equations</p>
+<p>Let us denote the first order derivative as velocity <span class="math notranslate nohighlight">\(v\)</span> and is given by</p>
+<div class="math notranslate nohighlight">
+\[
+v := \dot{x} \qquad \Rightarrow \qquad \dot{x} = v
+\]</div>
+<p>so that the second differential equation can be written in terms of <span class="math notranslate nohighlight">\(x, t, v\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\ddot{x} = \dot{[\dot{x}]} = \dot{v} = f(x, t)
+\]</div>
+<p>The set of first order differential equations that are equivalent to the given second order differential equation is</p>
+<p>\begin{align}
+\dot{x} &amp;= v \
+\dot{v} &amp;= f(x, t)
+\end{align}</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="generalized-position-and-velocity">
+<h1>Generalized position and velocity<a class="headerlink" href="#generalized-position-and-velocity" title="Link to this heading">#</a></h1>
+<p>If we represent the set of position and velocity as the <strong>generalized position</strong> of the particle, it can be represented as a ket that is a 2-column vector
+$<span class="math notranslate nohighlight">\(
+|\psi\rangle =
+\left(
+\begin{matrix}
+x \\
+v
+\end{matrix}
+\right)
+\)</span>$</p>
+<p>Here, ket resides in the two-dimensional space spanned by position and momentum. This space is called <strong>phase space</strong> of the particle.</p>
+<p>Similarly, if we represent the set of rate of change of position and rate of change of velocity as the <strong>generalized velocity</strong> of the particle, it can be represented as a ket that is a 2-column vector</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\frac{\mathrm{d} |\psi\rangle}{\mathrm{d} t} =
+\left(
+\begin{matrix}
+\dot{x} \\
+\dot{v}
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+v \\
+f(x, t)
+\end{matrix}
+\right)
+\end{split}\]</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="finite-difference-formula-for-velocity">
+<h1>Finite difference formula for velocity<a class="headerlink" href="#finite-difference-formula-for-velocity" title="Link to this heading">#</a></h1>
+<p>If we discretize the time axis with equally spaced time samples <span class="math notranslate nohighlight">\({t_n}\)</span> with spacing <span class="math notranslate nohighlight">\(\Delta t = t_n - t_{n-1}\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\mathrm{d} |\psi\rangle}{\mathrm{d} t} \sim \frac{|\psi(t_n)\rangle -|\psi(t_{n-1})\rangle}{\Delta t}
+\]</div>
+<p>If the samples of kets are denoted by <span class="math notranslate nohighlight">\(|\psi(t_n)\rangle = |\psi_n\rangle\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi_n\rangle =
+\left(
+\begin{matrix}
+x_n \\
+v_n
+\end{matrix}
+\right)
+\end{split}\]</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="recurrence-relation">
+<h1>Recurrence relation<a class="headerlink" href="#recurrence-relation" title="Link to this heading">#</a></h1>
+<p>Due to the finite difference formula, the values of ket at timestamp <span class="math notranslate nohighlight">\(n\)</span> can be expressed in terms of values of ket at <span class="math notranslate nohighlight">\(n-1\)</span> and other independent variables.</p>
+<p>\begin{align}
+|\psi_n\rangle &amp;\sim |\psi_{n-1}\rangle  + \Delta t |\psi_{n}\rangle^{‘},\
+\left(
+\begin{matrix}
+x_{n} \
+v_{n}
+\end{matrix}
+\right)
+&amp;=
+\left(
+\begin{matrix}
+x_{n-1} \
+v_{n-1}
+\end{matrix}
+\right)
++
+\Delta t
+\left(
+\begin{matrix}
+\dot{x}<em>{n} \
+\dot{v}</em>{n}
+\end{matrix}
+\right) \
+&amp;= \left(
+\begin{matrix}
+x_{n-1} + v_n \Delta t \
+v_{n-1} + f(x_n, t_n)\Delta t
+\end{matrix}
+\right)
+\end{align}</p>
+<p>But let us express <span class="math notranslate nohighlight">\(v_n\)</span> on the RHS in terms of <span class="math notranslate nohighlight">\(v_{n-1}\)</span> so that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\left(
+\begin{matrix}
+x_{n} \\
+v_{n}
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+x_{n-1} + v_{n-1} \Delta t + f(x_n, t_n)(\Delta t)^2 \\
+v_{n-1} + f(x_n, t_n)\Delta t
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>If the error propagation due to <span class="math notranslate nohighlight">\((\Delta t)^2\)</span> is neglected, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\left(
+\begin{matrix}
+x_{n} \\
+v_{n}
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+x_{n-1} + v_{n-1} \Delta t \\
+v_{n-1} + f(x_n, t_n)\Delta t
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>The RHS can be considered as a matrix transformation so that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\left(
+\begin{matrix}
+x_{n} \\
+v_{n}
+\end{matrix}
+\right)
+=
+\left[
+\begin{matrix}
+1  &amp; \Delta t \\
+f(x_n, t_n)\Delta t    &amp; 1
+\end{matrix}
+\right]
+\left(
+\begin{matrix}
+x_{n-1}\\
+v_{n-1}
+\end{matrix}
+\right)
+\end{split}\]</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="simple-harmonic-motion">
+<h1>Simple Harmonic Motion<a class="headerlink" href="#simple-harmonic-motion" title="Link to this heading">#</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\ddot{x} = - \omega^2 x
+\]</div>
+<p>so that <span class="math notranslate nohighlight">\(f(x, t) = -\omega^2 x\)</span>. The evolver is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+U =
+\left[
+\begin{matrix}
+1  &amp; \Delta t \\
+- \omega^2 \Delta t    &amp; 1
+\end{matrix}
+\right]
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Implementation of recurrence relation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># number of periods</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initial ket (x0, v0) = (0, 1)</span>
+<span class="n">ket0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ket0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 2])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">evolver</span><span class="p">(</span><span class="n">ket</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">ket</span>
+    <span class="n">stepper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">step</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">stepper</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ket</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">evolved_ket</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">ket0</span>
+        <span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">evolved_ket</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">evolver</span><span class="p">(</span><span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">evolved_ket</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">,</span> <span class="n">vs</span> <span class="o">=</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$x_n$&#39;</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$v_n$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;simple harmonic motion&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;simple harmonic motion&#39;)
+</pre></div>
+</div>
+<img alt="../_images/1862de10b4d2249403b023dbd6d4996f7c9fb9b03807303bf870f7b10c4c1062.png" src="../_images/1862de10b4d2249403b023dbd6d4996f7c9fb9b03807303bf870f7b10c4c1062.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="configuration-space">
+<h1>Configuration space<a class="headerlink" href="#configuration-space" title="Link to this heading">#</a></h1>
+<p>The space spanned by the position coordinates of the system is called the configuration space. Here, the particle is in one-dimensional motion. Hence, the configuration space is one dimensional. However, not all of the axis is spanned. There are turning points due to the harmonic motion.</p>
+<p>Since we started with initial velocity at origin, the particle reached maximum position <span class="math notranslate nohighlight">\(x_{max}\)</span> where the velocity is zero. Similarly, the other turning point is at <span class="math notranslate nohighlight">\(x_{min}\)</span>.</p>
+<p>The trajectory of the particle can be represented as set of the <span class="math notranslate nohighlight">\(x(t), v(t)\)</span> parametrized curves, where <span class="math notranslate nohighlight">\(t\)</span> is the parameter.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="phase-space">
+<h1>Phase space<a class="headerlink" href="#phase-space" title="Link to this heading">#</a></h1>
+<p>The space spanned by the position and velocity coordinates is called the phase space. The phase space of the particle in 1D simple harmonic motion will be two-dimensional.</p>
+<p>The trajectory of the particle is represented as a single parametrized curve.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Phase space visualization</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;trajectory&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;phase space&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x792af7b83ed0&gt;
+</pre></div>
+</div>
+<img alt="../_images/a031ffc71be48792b700f5c0875c1f8e7bf29bd5d4d4164ecf952b4d89c75f11.png" src="../_images/a031ffc71be48792b700f5c0875c1f8e7bf29bd5d4d4164ecf952b4d89c75f11.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="acceleration-due-to-gravity">
+<h1>Acceleration due to gravity<a class="headerlink" href="#acceleration-due-to-gravity" title="Link to this heading">#</a></h1>
+<p>Let us consider a two dimensional problem of a particle projected at an angle to the horizontal. The aim is to solve for the trajectory of the particle.</p>
+<p>We have</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{a} = -g \hat{j},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> is the acceleration due to gravity.</p>
+<p>This is a vector equation that can be decomposed into two scalar equations.</p>
+<p>\begin{align}
+\ddot{x} &amp;= 0 \
+\ddot{y}  &amp;= -g
+\end{align}</p>
+<p>If we denote the velocity components as</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{v} = v_x \hat{i} + v_y \hat{j}
+\]</div>
+<p>Then the set of two second order differential equations can be decomposed as a set of four first order differential equations</p>
+<p>\begin{align}
+\dot{x} &amp;= v_x \
+\dot{y} &amp;= v_y \
+\dot{v_x} &amp;= 0 \
+\dot{v_y} &amp;= -g
+\end{align}</p>
+<p>Thus if the state of the system is represented by the 4-column ket</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi\rangle =
+\left(
+\begin{matrix}
+x \\
+y \\
+v_x \\
+v_y
+\end{matrix}
+\right),
+\end{split}\]</div>
+<p>then the velocity of the state is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\frac{\mathrm{d} |\psi\rangle}{\mathrm{d} t}  =
+\left(
+\begin{matrix}
+\dot{x} \\
+\dot{y} \\
+\dot{v_x} \\
+\dot{v_y}
+\end{matrix}
+\right)
+=
+\left(
+\begin{matrix}
+v_x \\
+v_y \\
+0 \\
+-g
+\end{matrix}
+\right)
+\end{split}\]</div>
+<p>We can extend the finite difference method to four dimensional ket and solve for the trajectory.</p>
+<p>The evolution is given by</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi_n\rangle = U |\psi_{n-1}\rangle + |\psi_0\rangle,
+\]</div>
+<p>where the evolver is then given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+U =
+\left[
+\begin{matrix}
+1  &amp;  0  &amp; \Delta t &amp; 0\\
+0    &amp;  1 &amp; 0 &amp; \Delta t \\
+0 &amp;  0  &amp; 1 &amp; 0 \\
+0 &amp;  0 &amp;  0 &amp; 1
+\end{matrix}
+\right]
+\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+|\psi_0 \rangle =
+\left(
+\begin{matrix}
+0  \\
+0  \\
+0  \\
+-g \Delta t
+\end{matrix}
+\right)
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">9.8</span> <span class="c1"># acceleration due to gravity</span>
+<span class="n">alpha</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">3.0</span> <span class="c1"># np.pi/2.0 projectile angle</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># initial speed</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">/</span><span class="n">g</span> <span class="c1"># time of flight</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.1767398783233548)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initial ket (x0, y0, vx0, vy0)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">vx0</span> <span class="o">=</span> <span class="n">v0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+<span class="n">vy0</span> <span class="o">=</span> <span class="n">v0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+<span class="n">ket0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">vx0</span><span class="p">,</span> <span class="n">vy0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">evolver_projectile</span><span class="p">(</span><span class="n">ket</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="n">ket</span>
+    <span class="n">stepper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">step</span><span class="p">])</span>
+    <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">stepper</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ket</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span>
+    <span class="k">return</span> <span class="n">evolved_ket</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">ket0</span>
+        <span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">evolved_ket</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">evolved_ket</span> <span class="o">=</span> <span class="n">evolver_projectile</span><span class="p">(</span><span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="n">kets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">evolved_ket</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">vxs</span><span class="p">,</span> <span class="n">vys</span> <span class="o">=</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">kets</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;trajectory&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;projectile motion under gravity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;projectile motion under gravity&#39;)
+</pre></div>
+</div>
+<img alt="../_images/7929d420f8853e73a62940e4d304f02da21bdbe6f0d2fe6a00680412f8968c7b.png" src="../_images/7929d420f8853e73a62940e4d304f02da21bdbe6f0d2fe6a00680412f8968c7b.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="step-potential">
+<h1>Step potential<a class="headerlink" href="#step-potential" title="Link to this heading">#</a></h1>
+<p>Let us now solve TISE the particle encountering a step potential</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="qs_Time_Independent_Schrodinger_equation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Time independent Schrodinger equation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="qs_numerical_solution_to_TISE.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Numerical solution to TISE</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Numerical solution to differential equation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-position-and-velocity">Generalized position and velocity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-formula-for-velocity">Finite difference formula for velocity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrence-relation">Recurrence relation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-harmonic-motion">Simple Harmonic Motion</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-space">Configuration space</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space">Phase space</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#acceleration-due-to-gravity">Acceleration due to gravity</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-potential">Step potential</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Sreekar Guddeti
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
